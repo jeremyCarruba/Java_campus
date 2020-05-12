@@ -1,23 +1,20 @@
 package com.game.characters;
 
-public class Character {
+public class Hero {
     private String name;
     private int health;
 
-    public Character() {
-        System.out.println("Création d'un perso");
+    public Hero() {
         this.name = "inconnu";
         this.health = 10;
     }
 
-    public Character(String pName) {
-        System.out.println("Création d'un perso avec nom");
+    public Hero(String pName) {
         this.name = pName;
         this.health = 10;
     }
 
-    public Character(String pName, int health) {
-        System.out.println("Création d'un perso avec tous les paramètres");
+    public Hero(String pName, int health) {
         this.name = pName.toString();
         this.health = (int) health;
     }

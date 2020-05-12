@@ -1,108 +1,153 @@
 package com.game;
-import com.game.characters.Warrior;
-import com.game.characters.Witcher;
+
+import com.game.characters.*;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
 public class Menu {
     private String gameStatus;
     private String userInput;
 
     Scanner scan = new Scanner(System.in);
 
+    // ===== USER ACTIONS ====//
+    //=============================//
+
     public String checkUserInput() {
-        String newInput=scan.nextLine();
-        if(newInput.equalsIgnoreCase("quit")) {
+        String newInput = scan.nextLine();
+        if (newInput.equalsIgnoreCase("quit")) {
             System.exit(0);
         }
+
         return newInput;
     }
 
     public int checkUserInputInt() {
-        int newInput=0;
-        while(true){
-            try{
+        int newInput = 0;
+        while (true) {
+            try {
                 newInput = scan.nextInt();
                 break;
-            } catch(InputMismatchException e) {
+            } catch (InputMismatchException e) {
                 System.out.println("Oops, tu dois rentrer un chiffre");
                 scan.next();
             }
         }
+        scan.nextLine();
         return newInput;
     }
 
+    // ===== PERSONNAGE ====//
+    //=============================//
+
     public Object createChar() {
-        String choice, nomPerso, imagePerso; int pvPerso, strength;
-        System.out.println("Voulez vous faire un Guerrier ou un Witcher ?");
-        choice = checkUserInput();
+        String choice, nomPerso, weapon;
+        int pvPerso, strength;
+        Hero perso = null;
 
         System.out.println("Quel est le nom de ton perso ?");
         nomPerso = checkUserInput();
 
-        System.out.println("Quel face a t'il ?");
-        imagePerso = checkUserInput();
-
         System.out.println("Combien de pts de vie ?");
         pvPerso = checkUserInputInt();
 
-        System.out.println("Quelle est sa force, oui la force ?");
-        strength = checkUserInputInt();
+        System.out.println("Voulez vous faire un Guerrier ou un Witcher ?");
 
-        if (choice.equalsIgnoreCase("Guerrier")) {
-            Warrior perso = new Warrior(nomPerso, imagePerso, pvPerso, strength);
-            return perso;
-        } else if (choice.equalsIgnoreCase("Witcher")) {
-            Witcher perso = new Witcher(nomPerso, imagePerso, pvPerso, strength);
-            return perso;
+        while (true) {
+            choice = checkUserInput();
+            if (choice.equalsIgnoreCase("Guerrier")) {
+                System.out.println("Quel arme a t'il ?");
+                weapon = checkUserInput();
+
+                System.out.println("Quelle est la force de son arme ?");
+                strength = checkUserInputInt();
+
+                perso = new Warrior(nomPerso, weapon, pvPerso, strength);
+                break;
+            } else if (choice.equalsIgnoreCase("Witcher")) {
+                System.out.println("Quel sort a t'il ?");
+                weapon = checkUserInput();
+
+                System.out.println("Quelle est la force de son sort ?");
+                strength = checkUserInputInt();
+                perso = new Witcher(nomPerso, weapon, pvPerso, strength);
+                break;
+            } else {
+                System.out.println("Mauvais choix ");
+                continue;
+            }
         }
 
-        return "Créé moi ce perso";
+        return perso;
     }
 
-    public Object modifyWarrior(Warrior character){
-        String newInput =""; int newInt;
-         System.out.println("Voulez vous devenir witcher ? oui / non");
+    public Object modifyHero(Hero mainChar) {
+        String newInput;
+        int newInt;
+        String heroClass = mainChar.getClass().getSimpleName();
+        System.out.println("Quel est son nouveau nom ?");
+        newInput = checkUserInput();
+        mainChar.setName(newInput);
+
+        if (heroClass.equals("Warrior")) {
+            System.out.println("Voulez vous devenir witcher ? oui / non");
             newInput = checkUserInput();
-            if(newInput.equalsIgnoreCase("oui")){
-                Witcher newChar = new Witcher();
+            if (newInput.equalsIgnoreCase("oui")) {
+                mainChar = new Witcher();
+                heroClass = "Witcher";
             }
-
-            System.out.println("Quel est son nouveau nom ?");
+        } else {
+            System.out.println("Voulez vous devenir warrior ? oui / non");
             newInput = checkUserInput();
-            newChar.setName(newInput);
+            if (newInput.equalsIgnoreCase("oui")) {
+                mainChar = new Warrior();
+                heroClass = "Warrior";
+            }
+        }
 
-            System.out.println("Quel arme a t'il ?");
+        if (heroClass.equals("Warrior")) {
+            System.out.println("Quel est son arme ?");
             newInput = checkUserInput();
-            character.setWeapon(newInput);
-
-            System.out.println("Combien de pts de vie ?");
-            newInt = checkUserInputInt();
-            character.setHealthPoints(newInt);
+            ((Warrior) mainChar).setWeapon(newInput);
 
             System.out.println("Quelle est sa force, oui la force ?");
             newInt = checkUserInputInt();
-            character.setStrength(newInt);
+            ((Warrior) mainChar).setStrength(newInt);
+        } else {
+            System.out.println("Quel est son sort ?");
+            newInput = checkUserInput();
+            ((Witcher) mainChar).setSpell(newInput);
 
-            return character;
+            System.out.println("Quelle est la force de son sort?");
+            newInt = checkUserInputInt();
+            ((Witcher) mainChar).setSpellStrength(newInt);
         }
 
-    public void mainMenu(Object character){
-        System.out.println("What's next ? Play / Character / Quit");
-        scan.nextLine();
-        String newInput = checkUserInput();
-        if(newInput.equalsIgnoreCase("character")){
-            System.out.println(character.toString());
-            String charClass = character.getClass().getSimpleName();
-            if(charClass.equals("Warrior")){
-                character = modifyWarrior(character);
-            } else {
-                character = modifyWitcher(character);
-            }
-            mainMenu(character);
-        } else if (newInput.equalsIgnoreCase("play")){
+        System.out.println("Combien de pts de vie ?");
+        newInt = checkUserInputInt();
+        mainChar.setHealth(newInt);
 
-        } else if (newInput.equalsIgnoreCase("quit")){
+        return mainChar;
+    }
+
+    // ===== MENUS ==============//
+    //=============================//
+
+    public void mainMenu(Hero perso) {
+        System.out.println("What's next ? Play / Character / Quit");
+        String newInput = checkUserInput();
+        if (newInput.equalsIgnoreCase("character")) {
+            System.out.println(perso.toString());
+            System.out.println("Voulez vous modifier votre perso ? oui / non");
+            newInput = checkUserInput();
+            if (newInput.equalsIgnoreCase("oui")) {
+                perso = (Hero) modifyHero(perso);
+            }
+            mainMenu(perso);
+        } else if (newInput.equalsIgnoreCase("play")) {
+
+        } else if (newInput.equalsIgnoreCase("quit")) {
             setGameStatus("quit");
             System.out.println("Vous quittez le jeu");
             System.exit(0);
@@ -110,12 +155,14 @@ public class Menu {
     }
 
     public void newGame() {
-        Object mainChar;
+        Hero mainChar;
         setGameStatus("playing");
-        mainChar = createChar();
-        Class charClass = mainChar.getClass();
+        mainChar = (Hero) createChar();
         mainMenu(mainChar);
     }
+
+    // ===== Getters / Setters ====//
+    //=============================//
 
     public String getUserInput() {
         return userInput;

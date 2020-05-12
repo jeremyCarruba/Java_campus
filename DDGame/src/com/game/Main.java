@@ -1,8 +1,7 @@
 package com.game;
 
-import com.game.characters.Warrior;
+import com.game.characters.*;
 import com.game.Menu;
-import com.game.characters.Witcher;
 import java.util.Scanner;
 
 public class Main {
