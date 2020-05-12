@@ -10,11 +10,18 @@ public class Witcher extends Hero {
         this.spellStrength = 0;
     }
 
-    public Witcher(String pName) {
+    public Witcher(String pName, String spell) {
         super(pName);
-        System.out.println("Création d'un witcher avec paramètres");
-        this.spell = "inconnu";
-        this.spellStrength = 10;
+        if(spell.equalsIgnoreCase("Boule de feu")) {
+            this.spell = "Boule de feu";
+            this.spellStrength = 15;
+        } else {
+            this.spell = "Éclair";
+            this.spellStrength = 10;
+        }
+        this.setHealth(8);
+        System.out.println("Création d'un witcher avec " + this.getHealth() + " points de vie et " + this.spellStrength
+        + " d'attaque grâce à " + this.spell);
     }
 
     public Witcher(String pName, String spell, int health, int pStrength) {
@@ -41,9 +48,9 @@ public class Witcher extends Hero {
     }
 
     public String toString() {
-        return super.toString() +
-                " Strength: " + spellStrength +
-                " Spell: " + spell;
+        return this.getName() + " est un " + this.getClass().getSimpleName() +
+                " avec " + this.getHealth() + " points de vie et "+ spellStrength +
+                " points d'attaque grâce à son sort " + spell;
     }
 
 }

@@ -7,21 +7,29 @@ public class Warrior extends Hero {
     public Warrior() {
         super();
         this.weapon = "inconnu";
-        this.strength = 0;
+        this.strength = 5;
     }
 
-    public Warrior(String pName) {
+    public Warrior(String pName, String weapon) {
         super(pName);
-        System.out.println("Création d'un wawa avec paramètres");
-        this.weapon = "inconnu";
-        this.strength = 10;
+        if (weapon.equalsIgnoreCase("épée") || weapon.equalsIgnoreCase("epee")) {
+            this.weapon = "Épée";
+            this.strength = 10;
+        } else {
+            this.weapon = "Massue";
+            this.strength = 8;
+        }
+        this.setHealth(10);
+        System.out.println("Création d'un guerrier avec " + this.getHealth() + " points de vie et " + this.strength
+                + " d'attaque grâce à sa " + this.weapon);
+
     }
 
     public Warrior(String pName, String weapon, int health, int pStrength) {
         super(pName, health);
         System.out.println("Création d'un wawa avec tous les paramètres");
         this.weapon = weapon;
-        this.strength = (int)pStrength;
+        this.strength = (int) pStrength;
     }
 
     public int getStrength() {
