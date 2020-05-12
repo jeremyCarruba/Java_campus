@@ -1,5 +1,3 @@
-package characters;
-
 public class Witcher {
     private String nom;
     private int healthPoints;
@@ -10,7 +8,7 @@ public class Witcher {
         System.out.println("Création d'un witcher");
         nom = "inconnu";
         healthPoints = 0;
-        spell = "inconnu"
+        spell = "inconnu";
         spellStrength = 0;
     }
 
@@ -25,7 +23,7 @@ public class Witcher {
     public Witcher(String pNom, int health, String spell, int pStrength) {
         System.out.println("Création d'un witcher avec tous les paramètres");
         nom = pNom.toString();
-        healthPoints = (int)health.;
+        healthPoints = (int)health;
         spellStrength = (int)pStrength;
     }
 
@@ -46,11 +44,11 @@ public class Witcher {
     }
 
     public int getStrength() {
-        return strength;
+        return spellStrength;
     }
 
     public void setStrength(int strength) {
-        this.strength = strength;
+        this.spellStrength = strength;
     }
 
 }

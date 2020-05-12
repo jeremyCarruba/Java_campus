@@ -1,5 +1,3 @@
-package characters;
-
 public class Warrior {
     private String nom;
     private int healthPoints;
@@ -10,7 +8,7 @@ public class Warrior {
         System.out.println("Création d'un wawa");
         nom = "inconnu";
         healthPoints = 0;
-        weapon = "inconnu"
+        weapon = "inconnu";
         strength = 0;
     }
 
@@ -18,14 +16,14 @@ public class Warrior {
         System.out.println("Création d'un wawa avec paramètres");
         nom = pNom.toString();
         healthPoints = 10;
-        weapon = "inconnu"
+        weapon = "inconnu";
         strength = 10;
     }
 
-    public Warrior(String pNom, int health, String weapon, int pStrength) {
+    public Warrior(String pNom, String weapon, int health, int pStrength) {
         System.out.println("Création d'un wawa avec tous les paramètres");
         nom = pNom.toString();
-        healthPoints = (int)health.;
+        healthPoints = (int)health;
         weapon = weapon;
         strength = (int)pStrength;
     }
@@ -52,6 +50,13 @@ public class Warrior {
 
     public void setStrength(int strength) {
         this.strength = strength;
+    }
+
+    public String toString() {
+        return "Nom: " + nom +
+                " Health: " + healthPoints +
+                " Strength: " + strength +
+                " Weapon: " + weapon;
     }
 
 }
