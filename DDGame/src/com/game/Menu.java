@@ -19,22 +19,6 @@ public class Menu {
         if (newInput.equalsIgnoreCase("quit")) {
             System.exit(0);
         }
-
-        return newInput;
-    }
-
-    public int checkUserInputInt() {
-        int newInput = 0;
-        while (true) {
-            try {
-                newInput = scan.nextInt();
-                break;
-            } catch (InputMismatchException e) {
-                System.out.println("Oops, tu dois rentrer un chiffre");
-                scan.next();
-            }
-        }
-        scan.nextLine();
         return newInput;
     }
 
@@ -43,7 +27,7 @@ public class Menu {
 
     public Object createChar() {
         String choice, nomPerso, weapon;
-        Hero perso = null;
+        Hero perso;
 
         System.out.println("Quel est le nom de ton perso ?");
         nomPerso = checkUserInput();
@@ -70,52 +54,6 @@ public class Menu {
         return perso;
     }
 
-    public Object modifyHero(Hero mainChar) {
-        String newInput;
-        int newInt;
-        String heroClass = mainChar.getClass().getSimpleName();
-        mainChar.toString();
-        System.out.println("Voulez vous changer de classe ? oui / non");
-        newInput = checkUserInput();
-        if (newInput.equalsIgnoreCase("oui")) {
-            if (heroClass.equals("Warrior")) {
-                mainChar = new Witcher();
-                heroClass = "Witcher";
-            } else {
-                mainChar = new Warrior();
-                heroClass = "Warrior";
-            }
-        }
-
-        System.out.println("Quel est son nouveau nom ?");
-        newInput = checkUserInput();
-        mainChar.setName(newInput);
-
-        if (heroClass.equals("Warrior")) {
-            System.out.println("Quel est son arme ? Épée (+5 en attaque) / Massue (+3 en attaque)");
-            newInput = checkUserInput();
-            ((Warrior) mainChar).setWeapon(newInput);
-
-            System.out.println("Quelle est sa force, oui la force ?");
-            newInt = checkUserInputInt();
-            ((Warrior) mainChar).setStrength(newInt);
-        } else {
-            System.out.println("Quel est son sort ?");
-            newInput = checkUserInput();
-            ((Witcher) mainChar).setSpell(newInput);
-
-            System.out.println("Quelle est la force de son sort?");
-            newInt = checkUserInputInt();
-            ((Witcher) mainChar).setSpellStrength(newInt);
-        }
-
-        System.out.println("Combien de pts de vie ?");
-        newInt = checkUserInputInt();
-        mainChar.setHealth(newInt);
-
-        return mainChar;
-    }
-
     // ===== MENUS ==============//
     //=============================//
 
@@ -131,9 +69,8 @@ public class Menu {
             }
             mainMenu(perso);
         } else if (newInput.equalsIgnoreCase("jouer")) {
-            play();
+            play(perso);
         } else if (newInput.equalsIgnoreCase("quitter")) {
-            setGameStatus("quit");
             System.out.println("Vous quittez le jeu");
             System.exit(0);
         }
@@ -142,14 +79,13 @@ public class Menu {
     //======= GAME ======//
     //==================//
 
-    public void newGame() {
+    public void start() {
         Hero mainChar;
-        setGameStatus("playing");
         mainChar = (Hero) createChar();
         mainMenu(mainChar);
     }
 
-    public void play() {
+    public void play(Hero mainChar) {
         int posPlayer;
         posPlayer = 1;
         System.out.println("Vous débuter en case 1");
@@ -172,7 +108,7 @@ public class Menu {
         while (true) {
             String newInput = checkUserInput();
             if (newInput.equalsIgnoreCase("rejouer")) {
-                newGame();
+                mainMenu(mainChar);
                 break;
             } else if (newInput.equalsIgnoreCase("quitter")) {
                 System.out.println("Bye bye !");

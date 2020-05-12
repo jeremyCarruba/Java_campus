@@ -49,9 +49,8 @@ public class Warrior extends Hero {
     }
 
     public String toString() {
-        return super.toString() +
-                " Strength: " + strength +
-                " Weapon: " + weapon;
+        return this.getName() + " est un " + this.getClass().getSimpleName() +
+                " avec " + this.getHealth() + " points de vie et "+ this.strength +
+                " points d'attaque grâce à son arme: " + this.weapon;
     }
-
 }
