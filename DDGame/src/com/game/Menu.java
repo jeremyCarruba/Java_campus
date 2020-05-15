@@ -37,7 +37,7 @@ public class Menu {
             newInput = checkUserInput();
 
             if (newInput.equalsIgnoreCase("oui")) {
-                perso = (Hero)perso.createChar();
+                perso = createChar();
             }
 
             mainMenu(perso);
@@ -50,15 +50,32 @@ public class Menu {
         }
     }
 
-    //======= GAME ======//
-    //==================//
+    public Hero createChar() {
+        String choice, nomPerso, weapon;
+        Hero perso;
+        System.out.println("Quel est le nom de ton perso ?");
+        nomPerso = checkUserInput();
 
-    public void start() {
-        Hero mainChar = new Hero();
-        mainChar = (Hero)mainChar.createChar();
-        mainMenu(mainChar);
+        System.out.println("Voulez vous faire un Guerrier ou un Witcher ?");
+        while (true) {
+            choice = checkUserInput();
+            if (choice.equalsIgnoreCase("Guerrier")) {
+                perso = new Warrior(nomPerso);
+                break;
+            } else if (choice.equalsIgnoreCase("Witcher")) {
+                perso = new Witcher(nomPerso);
+                break;
+            } else {
+                System.out.println("Mauvais choix. Guerrier / Witcher ? ");
+            }
+        }
+        return perso;
     }
 
+    public void start() {
+        Hero mainChar = createChar();
+        mainMenu(mainChar);
+    }
 
     // ===== Getters / Setters ====//
     //=============================//

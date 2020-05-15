@@ -1,66 +1,37 @@
 package com.game.characters;
 
-import java.util.Scanner;
+public abstract class Hero {
 
-public class Hero {
-    private String name;
-    private int health;
-    Scanner scan = new Scanner(System.in);
+    protected String name;
+    protected int health;
+    protected int minHealth;
+    protected int maxHealth;
+    protected String weapon;
+    protected int strength;
+    protected int minStrength;
+    protected int maxStrength;
+    private String heroStatus;
 
     public Hero() {
-        this.name = "inconnu";
-        this.health = 10;
+        this("inconnu", 10, "inconnu", 10);
     }
 
     public Hero(String pName) {
-        this.name = pName;
-        this.health = 10;
+        this(pName, 10, "inconnu", 10);
     }
 
-    public Hero(String pName, int health) {
+    public Hero(String pName, int health, String weapon, int strength) {
         this.name = pName;
         this.health = health;
-    }
-
-    public String checkUserInput() {
-        String newInput = scan.nextLine();
-        if (newInput.equalsIgnoreCase("quit")) {
-            System.exit(0);
-        }
-        return newInput;
-    }
-
-    public Object createChar() {
-        String choice, nomPerso, weapon;
-        Hero perso;
-
-        System.out.println("Quel est le nom de ton perso ?");
-        nomPerso = checkUserInput();
-
-        System.out.println("Voulez vous faire un Guerrier ou un Witcher ?");
-
-        while (true) {
-            choice = checkUserInput();
-            if (choice.equalsIgnoreCase("Guerrier")) {
-                System.out.println("Quel arme a t'il ? Épée (+5 en attaque) / Massue (+3 en attaque)");
-                weapon = checkUserInput();
-                perso = new Warrior(nomPerso, weapon);
-                break;
-            } else if (choice.equalsIgnoreCase("Witcher")) {
-                System.out.println("Quel sort a t'il ? Éclair (+2 en attaque) / Boule de feu (+7 en attaque)");
-                weapon = checkUserInput();
-                perso = new Witcher(nomPerso, weapon);
-                break;
-            } else {
-                System.out.println("Mauvais choix ");
-            }
-        }
-        return perso;
+        this.weapon = weapon;
+        this.strength = strength;
+        this.heroStatus = "moving";
     }
 
     public String toString() {
-        return "Name: " + name +
-                " Health: " + health;
+        return this.getName() + " est un " + this.getClass().getSimpleName() +
+                " avec " + this.health + " points de vie et " + this.strength +
+                " points d'attaque grâce à son arme: " + this.weapon;
     }
 
     public String getName() {
@@ -78,4 +49,62 @@ public class Hero {
     public void setHealth(int health) {
         this.health = health;
     }
+
+    public String getWeapon() {
+        return weapon;
+    }
+
+    public void setWeapon(String weapon) {
+        this.weapon = weapon;
+    }
+
+    public int getStrength() {
+        return strength;
+    }
+
+    public void setStrength(int strength) {
+        this.strength = strength;
+    }
+
+    public String getHeroStatus() {
+        return heroStatus;
+    }
+
+    public void setHeroStatus(String heroStatus) {
+        this.heroStatus = heroStatus;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
+    }
+
+    public int getMaxStrength() {
+        return maxStrength;
+    }
+
+    public void setMaxStrength(int maxStrength) {
+        this.maxStrength = maxStrength;
+    }
+
+    public int getMinHealth() {
+        return minHealth;
+    }
+
+    public void setMinHealth(int minHealth) {
+        this.minHealth = minHealth;
+    }
+
+    public int getMinStrength() {
+        return minStrength;
+    }
+
+    public void setMinStrength(int minStrength) {
+        this.minStrength = minStrength;
+    }
+
+    public abstract void characterReset();
 }
