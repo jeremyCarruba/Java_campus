@@ -40,25 +40,24 @@ public class Game {
 
         while (posPlayer < 64) {
             nbTours++;
+            boolean victory = false;
             System.out.println("---Tour " + nbTours + "---");
             if (mainChar.getHeroStatus().equals("fighting")) {
                 stillFighting(posPlayer, mainChar);
-            } else {
-                if (mode.equalsIgnoreCase("normal")) {
-                    posPlayer = normalMode(posPlayer);
-                } else if (mode.equalsIgnoreCase("debug")) {
-                    posPlayer = debugMode();
-                } else {
-                    posPlayer = scenarMode(iScenar, scenario, posPlayer);
-                    iScenar++;
-                }
-            }
-            try {
-                boolean victory = false;
                 if (mainChar.getHealth() <= 0) {
                     endGame(mainChar, victory);
                 }
+            }
 
+            if (mode.equalsIgnoreCase("normal")) {
+                posPlayer = normalMode(posPlayer);
+            } else if (mode.equalsIgnoreCase("debug")) {
+                posPlayer = debugMode();
+            } else {
+                posPlayer = scenarMode(iScenar, scenario, posPlayer);
+                iScenar++;
+            }
+            try {
                 if (posPlayer > 64) {
                     throw new PersonnageHorsPlateauException(posPlayer);
                 } else if (posPlayer == 64) {
@@ -86,6 +85,7 @@ public class Game {
                 waitingUserInput = false;
             }
         }
+
     }
 
     public int depassementPlateau(int posPlayer) {
@@ -120,12 +120,12 @@ public class Game {
         return posPlayer;
     }
 
-    public void stillFighting(int posPlayer, Hero mainChar) {
+    public int stillFighting(int posPlayer, Hero mainChar) {
         System.out.println("Vous devez encore fighter votre ennemi en case " + posPlayer);
         System.out.println("Vous tentez de faire flipper votre ennemi, lancez les dés. Si vous faites un 1 ou un 6" +
                 ", ce dernier fuit, sinon vous devez vous le faire.");
         String nextInput = scan.nextLine();
-        if(nextInput.isEmpty()) {
+        if (nextInput.isEmpty()) {
             int tentativeDeFuite = throwDice();
             if (tentativeDeFuite == 1 || tentativeDeFuite == 6) {
                 System.out.println("Vous faites un " + tentativeDeFuite + ". Votre ennemi fuit, continuez votre chemin");
@@ -134,13 +134,9 @@ public class Game {
                 System.out.println("Dommage il stand his ground, fumez le..");
                 Event e = this.board.getBoardEvent(posPlayer);
                 e.eventHandler(mainChar, e, p);
-                if(((Foe)e).getHealth() <= 0){
-                    posPlayer = posPlayer+ throwDice();
-                    System.out.println("Vous relancez les dés et avancez en case " + posPlayer);
-                    mainChar.setHeroStatus("moving");
-                }
             }
         }
+        return posPlayer;
     }
 
     public void endGame(Hero mainChar, Boolean victory) {

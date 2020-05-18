@@ -36,16 +36,7 @@ public class Spell extends Bonus {
     public void eventHandler(Hero perso, Event e, Printer p) {
         if (perso instanceof Witcher) {
             int totalAfterBonus = perso.getStrength() + this.bonusIncrease;
-            if (totalAfterBonus>perso.getMaxStrength()) {
-                System.out.println("C'est pas la fête non plus, " + perso.getName() + " peut pas porter avoir 1000 sorts non plus, paposs." +
-                        "Mais on va dire que c'est toujours cool d'apprendre des sorts, donc " + perso.getName() + " a maintenant " +
-                        perso.getMaxStrength() + " points d'attaque !");
-                perso.setStrength(perso.getMaxStrength());
-            } else {
-                System.out.println(perso.getName() + " apprend le sort " + this.name + ". Il a maintenant " + (perso.getStrength() + this.bonusIncrease) + " d'attaque !");
-                perso.setStrength(perso.getStrength() + this.bonusIncrease);
-                perso.setWeapon(this.name);
-            }
+            perso.findBonus(totalAfterBonus, this.bonusIncrease, this.name);
         } else {
             System.out.println(perso.getName() + " tombe sur " + this.name + " mais c'est pas tant son truc.");
         }

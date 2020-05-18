@@ -3,11 +3,6 @@ package com.game.events;
 import com.game.Printer;
 import com.game.characters.Hero;
 
-// -- Commentaire Flo -- //
-// Pense à mettre les annotations @Override quand tu implémentes une méthode d'un parent.
-// Plus facile de se repérer rapidement dans le code. 
-// -- Fin Commentaire Flo -- //
-
 public class EmptySquare extends Event{
     public EmptySquare(int posPlateau) {
         super(posPlateau);
@@ -22,9 +17,16 @@ public class EmptySquare extends Event{
     }
 
     public void eventHandler(Hero perso, Event e, Printer p) {
-        System.out.println("rien");
+        System.out.println("Rien ici, c'est une bonne occase de bivouaquer et de se refaire une santé.");
+        if(perso.getHealth()<perso.getMAXHEALTH()){
+            perso.setHealth((perso.getHealth()+1));
+            System.out.println("Vous gagnez un pv.");
+        } else {
+            System.out.println("Vous êtes déjà au top de votre forme, cela n'a aucun effet");
+        }
     }
 
+    @Override
     public String toString() {
         return "La case " + this.posPlateau + " est vide";
     }

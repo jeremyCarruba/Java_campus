@@ -31,10 +31,11 @@ public class Weapon extends Bonus {
         }else{
             p.printMass();
         }
+
         if (perso instanceof Warrior) {
             if (this.name.equals(perso.getWeapon())) {
                 System.out.println("C'est pas la fête non plus, " + perso.getName() + " peut pas porter 1000 trucs non plus, paposs");
-            } else if((perso.getStrength() + this.bonusIncrease <= perso.getMaxStrength()) || perso.getWeapon().equals("inconnu")){
+            } else if((perso.getStrength() + this.bonusIncrease <= perso.getMAXSTRENGTH()) || perso.getWeapon().equals("inconnu")){
                 System.out.println(perso.getName() + " chope une " + this.name + ". Il a maintenant " + (5 + this.bonusIncrease) + " d'attaque !");
                 perso.setStrength(5 + this.bonusIncrease);
                 perso.setWeapon(this.name);

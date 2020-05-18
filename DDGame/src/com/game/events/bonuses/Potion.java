@@ -28,14 +28,14 @@ public class Potion extends Bonus {
         p.printPotion();
         System.out.println(perso.getName() + " trouve une " + this.name + " et ça lui plait.");
         int totalAfterBonus = perso.getHealth() + this.bonusIncrease;
-        if (totalAfterBonus <= perso.getMaxHealth()) {
+        if (totalAfterBonus <= perso.getMAXHEALTH()) {
             System.out.println(perso.getName() + " boit la " + this.name + " et gagne " + this.bonusIncrease + " points de vie !" +
                     "Il a maintenant " + totalAfterBonus + " points de vie.");
             perso.setHealth(totalAfterBonus);
         } else {
-            perso.setHealth(perso.getMaxHealth());
+            perso.setHealth(perso.getMAXHEALTH());
             System.out.println("Ça fait du bien mais ça repousse pas les limites non plus, " + perso.getName() + " est au max" +
-                    " de sa vie, soit " + perso.getMaxHealth() + " points de vie.");
+                    " de sa vie, soit " + perso.getMAXHEALTH() + " points de vie.");
         }
         this.posPlateau = 0;
     }
