@@ -19,6 +19,7 @@ public class Spell extends Bonus {
         } else {
             this.bonusIncrease = 2;
         }
+        this.description = "Ce sort inflige " + this.bonusIncrease + " points de dégats en plus.";
     }
 
     public Spell(int posPlateau, String name, String description, int bonusIncrease) {

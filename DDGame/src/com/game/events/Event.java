@@ -45,6 +45,6 @@ public abstract class Event {
     }
 
     public String toString() {
-        return "Vous tombez sur " + this.name + this.description;
+        return "Vous tombez sur " + this.name + ". " + this.description;
     }
 }

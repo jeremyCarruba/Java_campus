@@ -18,6 +18,7 @@ public class Weapon extends Bonus {
         } else {
             this.bonusIncrease = 5;
         }
+        this.description = "Cette arme inflige " + this.bonusIncrease + " points de dégats en plus.";
     }
 
     public Weapon(int posPlateau, String name, String description, int bonusIncrease) {

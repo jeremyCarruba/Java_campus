@@ -17,6 +17,7 @@ public class Potion extends Bonus {
         } else {
             this.bonusIncrease = 5;
         }
+        this.description = "Cette potion rend " + this.bonusIncrease + " points de vie.";
     }
 
     public Potion(int posPlateau, String name, String description, int bonusIncrease) {

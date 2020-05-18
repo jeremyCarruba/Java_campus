@@ -7,6 +7,7 @@ import com.game.events.Event;
 
 import java.util.Scanner;
 
+import com.game.events.Foe;
 import com.game.exceptions.*;
 
 public class Game {
@@ -54,6 +55,10 @@ public class Game {
             }
             try {
                 boolean victory = false;
+                if (mainChar.getHealth() <= 0) {
+                    endGame(mainChar, victory);
+                }
+
                 if (posPlayer > 64) {
                     throw new PersonnageHorsPlateauException(posPlayer);
                 } else if (posPlayer == 64) {
@@ -129,6 +134,11 @@ public class Game {
                 System.out.println("Dommage il stand his ground, fumez le..");
                 Event e = this.board.getBoardEvent(posPlayer);
                 e.eventHandler(mainChar, e, p);
+                if(((Foe)e).getHealth() <= 0){
+                    posPlayer = posPlayer+ throwDice();
+                    System.out.println("Vous relancez les dés et avancez en case " + posPlayer);
+                    mainChar.setHeroStatus("moving");
+                }
             }
         }
     }
