@@ -25,6 +25,13 @@ public class Spell extends Bonus {
         super(posPlateau, name, description, bonusIncrease);
     }
 
+    // -- Commentaire Flo -- //
+    // Ici aussi tu pourrais te débrouiller pour faire ça un peu plus sexy
+    // Je ne vois pas pourquoi c'est eventHandler qui est responsable de vérifier l'intégrité des données
+    // Ca devrait être la responsabilité du Witcher je pense (au minimum que setStrength lève une exception, 
+    // si vraiment tu veux gérer ça ici
+    // -- Fin commentaire Flo -- //
+    
     public void eventHandler(Hero perso, Event e, Printer p) {
         if (perso instanceof Witcher) {
             int totalAfterBonus = perso.getStrength() + this.bonusIncrease;
