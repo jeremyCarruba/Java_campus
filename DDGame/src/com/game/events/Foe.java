@@ -13,7 +13,7 @@ public class Foe extends Event {
     }
 
     public Foe(int posPlateau, String name) {
-        super(posPlateau, name);
+        this(posPlateau, name, "blabla");
         if (name.equals("Dragon")) {
             this.attackPower = 4;
             this.health = 15;

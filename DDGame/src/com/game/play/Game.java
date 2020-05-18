@@ -20,7 +20,7 @@ public class Game {
         this.board = new Board();
         System.out.println("Voulez vous jouer sur un plateau normal ou aléatoire ? normal / random");
         String boardMode = scan.nextLine();
-        if(boardMode.equalsIgnoreCase("random")) {
+        if (boardMode.equalsIgnoreCase("random")) {
             this.board.setRandomBoardEvents(this.board.getBoardEvents());
         } else {
             this.board.setNormalBoardEvents(this.board.getBoardEvents());
@@ -41,16 +41,15 @@ public class Game {
             nbTours++;
             System.out.println("---Tour " + nbTours + "---");
             if (mainChar.getHeroStatus().equals("fighting")) {
-                System.out.println("Vous devez encore fighter votre ennemi en case " + posPlayer);
-                Event e = this.board.getBoardEvent(posPlayer);
-                e.eventHandler(mainChar, e, p);
+                stillFighting(posPlayer, mainChar);
             } else {
                 if (mode.equalsIgnoreCase("normal")) {
                     posPlayer = normalMode(posPlayer);
                 } else if (mode.equalsIgnoreCase("debug")) {
                     posPlayer = debugMode();
                 } else {
-                    posPlayer = scenarMode(iScenar,scenario,posPlayer);
+                    posPlayer = scenarMode(iScenar, scenario, posPlayer);
+                    iScenar++;
                 }
             }
             try {
@@ -104,18 +103,34 @@ public class Game {
 
     public int debugMode() {
         System.out.println("À Quelle case voulez vous vous rendre ?");
-        int nextCase = scan.nextInt();
-        return nextCase;
+        return scan.nextInt();
     }
 
-    public int scenarMode(int iScenar, int[]scenario, int posPlayer) {
+    public int scenarMode(int iScenar, int[] scenario, int posPlayer) {
         System.out.println("Appuyez sur entrée pour avancer dans le scénario");
         String newInput = scan.nextLine();
         if (newInput.isEmpty()) {
             posPlayer = scenario[iScenar];
-            iScenar++;
         }
         return posPlayer;
+    }
+
+    public void stillFighting(int posPlayer, Hero mainChar) {
+        System.out.println("Vous devez encore fighter votre ennemi en case " + posPlayer);
+        System.out.println("Vous tentez de faire flipper votre ennemi, lancez les dés. Si vous faites un 1 ou un 6" +
+                ", ce dernier fuit, sinon vous devez vous le faire.");
+        String nextInput = scan.nextLine();
+        if(nextInput.isEmpty()) {
+            int tentativeDeFuite = throwDice();
+            if (tentativeDeFuite == 1 || tentativeDeFuite == 6) {
+                System.out.println("Vous faites un " + tentativeDeFuite + ". Votre ennemi fuit, continuez votre chemin");
+                mainChar.setHeroStatus("moving");
+            } else {
+                System.out.println("Dommage il stand his ground, fumez le..");
+                Event e = this.board.getBoardEvent(posPlayer);
+                e.eventHandler(mainChar, e, p);
+            }
+        }
     }
 
     public void endGame(Hero mainChar, Boolean victory) {

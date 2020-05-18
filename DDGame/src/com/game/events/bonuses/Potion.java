@@ -11,7 +11,7 @@ public class Potion extends Bonus {
     }
 
     public Potion(int posPlateau, String name) {
-        super(posPlateau, name);
+        super(posPlateau, name, "inconnu", 0);
         if (name.equals("Potion standard")) {
             this.bonusIncrease = 2;
         } else {
@@ -19,8 +19,8 @@ public class Potion extends Bonus {
         }
     }
 
-    public Potion(int posPlateau, String name, String description, int bonusIncrease, String bonusType) {
-        super(posPlateau, name, description, bonusIncrease, bonusType);
+    public Potion(int posPlateau, String name, String description, int bonusIncrease) {
+        super(posPlateau, name, description, bonusIncrease);
     }
 
     public void eventHandler(Hero perso, Event e, Printer p) {

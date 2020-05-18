@@ -12,7 +12,7 @@ public class Weapon extends Bonus {
     }
 
     public Weapon(int posPlateau, String name) {
-        super(posPlateau, name);
+        this(posPlateau, name, "blabla", 0);
         if (name.equals("Massue")) {
             this.bonusIncrease = 3;
         } else {
@@ -20,8 +20,8 @@ public class Weapon extends Bonus {
         }
     }
 
-    public Weapon(int posPlateau, String name, String description, int bonusIncrease, String bonusType) {
-        super(posPlateau, name, description, bonusIncrease, bonusType);
+    public Weapon(int posPlateau, String name, String description, int bonusIncrease) {
+        super(posPlateau, name, description, bonusIncrease);
     }
 
     public void eventHandler(Hero perso, Event e, Printer p) {

@@ -8,25 +8,25 @@ import com.game.events.bonuses.Weapon;
 import java.util.*;
 
 public class Board {
-    protected TreeMap boardEvents;
+    protected TreeMap<Integer, Event> boardEvents;
 
     public Board() {
         this.boardEvents = new TreeMap<Integer, Event>();
     }
 
-    public TreeMap getBoardEvents() {
+    public TreeMap<Integer, Event> getBoardEvents() {
         return boardEvents;
     }
 
     public Event getBoardEvent(int id) {
-        return (Event) boardEvents.get(id);
+        return boardEvents.get(id);
     }
 
-    public void setBoardEvents(TreeMap boardEvents) {
+    public void setBoardEvents(TreeMap<Integer, Event> boardEvents) {
         this.boardEvents = boardEvents;
     }
 
-    public void setNormalBoardEvents(TreeMap boardEvents) {
+    public void setNormalBoardEvents(TreeMap<Integer, Event> boardEvents) {
         this.emptySquares(64);
         this.createGoblins(10);
         this.createFoes(4, new int[]{45, 52, 56, 62}, "Dragon");
@@ -39,7 +39,7 @@ public class Board {
         this.createPotions(2, new int[]{28, 41}, "Grande potion");
     }
 
-    public void setRandomBoardEvents(TreeMap boardEvents) {
+    public void setRandomBoardEvents(TreeMap<Integer, Event> boardEvents) {
         List<Integer> randomBoard = createRandomArray();
         this.emptySquares(64);
         createFoes(10, pickArray(randomBoard, 10), "Gobelin");
@@ -117,7 +117,7 @@ public class Board {
     }
 
     public void listBoardEvents() {
-        Set listOfEvents = this.boardEvents.entrySet();
+        Set<Map.Entry<Integer, Event>> listOfEvents = this.boardEvents.entrySet();
         for (Object listOfEvent : listOfEvents) {
             Map.Entry me = (Map.Entry) listOfEvent;
             System.out.println(me.getKey() + ": " + me.getValue());

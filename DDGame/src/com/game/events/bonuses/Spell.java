@@ -9,6 +9,11 @@ import com.game.events.Event;
 public class Spell extends Bonus {
 
     public Spell() {
+        this(0, "inconnu");
+    }
+
+    public Spell(int posPlateau, String name) {
+        this(posPlateau, name, "inconnu", 0);
         if (name.equals("Boule de feu")) {
             this.bonusIncrease = 7;
         } else {
@@ -16,17 +21,8 @@ public class Spell extends Bonus {
         }
     }
 
-    public Spell(int posPlateau, String name) {
-        super(posPlateau, name);
-        if (name.equals("Spell standard")) {
-            this.bonusIncrease = 2;
-        } else if (name.equals("Grande Spell")) {
-            this.bonusIncrease = 5;
-        }
-    }
-
-    public Spell(int posPlateau, String name, String description, int bonusIncrease, String bonusType) {
-        super(posPlateau, name, description, bonusIncrease, bonusType);
+    public Spell(int posPlateau, String name, String description, int bonusIncrease) {
+        super(posPlateau, name, description, bonusIncrease);
     }
 
     public void eventHandler(Hero perso, Event e, Printer p) {
@@ -39,7 +35,7 @@ public class Spell extends Bonus {
                 perso.setStrength(perso.getMaxStrength());
             } else {
                 System.out.println(perso.getName() + " apprend le sort " + this.name + ". Il a maintenant " + (perso.getStrength() + this.bonusIncrease) + " d'attaque !");
-                perso.setStrength(5 + this.bonusIncrease);
+                perso.setStrength(perso.getStrength() + this.bonusIncrease);
                 perso.setWeapon(this.name);
             }
         } else {
