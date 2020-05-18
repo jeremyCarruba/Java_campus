@@ -1,5 +1,6 @@
 package com.game.events.bonuses;
 
+import com.game.Printer;
 import com.game.characters.Hero;
 import com.game.characters.Witcher;
 import com.game.events.Bonus;
@@ -28,7 +29,7 @@ public class Spell extends Bonus {
         super(posPlateau, name, description, bonusIncrease, bonusType);
     }
 
-    public void eventHandler(Hero perso, Event e) {
+    public void eventHandler(Hero perso, Event e, Printer p) {
         if (perso instanceof Witcher) {
             int totalAfterBonus = perso.getStrength() + this.bonusIncrease;
             if (totalAfterBonus>perso.getMaxStrength()) {

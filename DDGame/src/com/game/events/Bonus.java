@@ -1,5 +1,6 @@
 package com.game.events;
 
+import com.game.Printer;
 import com.game.characters.Hero;
 import com.game.characters.Warrior;
 import com.game.characters.Witcher;
@@ -24,5 +25,5 @@ public abstract class Bonus extends Event {
         this.bonusIncrease = bonusIncrease;
     }
 
-    public abstract void eventHandler(Hero perso, Event e);
+    public abstract void eventHandler(Hero perso, Event e, Printer p);
 }

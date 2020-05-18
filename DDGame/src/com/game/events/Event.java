@@ -1,5 +1,6 @@
 package com.game.events;
 
+import com.game.Printer;
 import com.game.characters.Hero;
 
 public abstract class Event {
@@ -17,7 +18,7 @@ public abstract class Event {
         this.description = description;
     }
 
-    public abstract void eventHandler(Hero perso, Event e);
+    public abstract void eventHandler(Hero perso, Event e, Printer p);
 
     public int getPosPlateau() {
         return posPlateau;

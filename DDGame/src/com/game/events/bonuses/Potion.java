@@ -3,6 +3,7 @@ package com.game.events.bonuses;
 import com.game.characters.Hero;
 import com.game.events.Bonus;
 import com.game.events.Event;
+import com.game.Printer;
 
 public class Potion extends Bonus {
 
@@ -22,7 +23,8 @@ public class Potion extends Bonus {
         super(posPlateau, name, description, bonusIncrease, bonusType);
     }
 
-    public void eventHandler(Hero perso, Event e) {
+    public void eventHandler(Hero perso, Event e, Printer p) {
+        p.printPotion();
         System.out.println(perso.getName() + " trouve une " + this.name + " et ça lui plait.");
         int totalAfterBonus = perso.getHealth() + this.bonusIncrease;
         if (totalAfterBonus <= perso.getMaxHealth()) {

@@ -4,6 +4,7 @@ import com.game.characters.Hero;
 import com.game.characters.Warrior;
 import com.game.events.Bonus;
 import com.game.events.Event;
+import com.game.Printer;
 
 public class Weapon extends Bonus {
 
@@ -23,7 +24,12 @@ public class Weapon extends Bonus {
         super(posPlateau, name, description, bonusIncrease, bonusType);
     }
 
-    public void eventHandler(Hero perso, Event e) {
+    public void eventHandler(Hero perso, Event e, Printer p) {
+        if(this.name.equalsIgnoreCase("Épée")) {
+            p.printSword();
+        }else{
+            p.printMass();
+        }
         if (perso instanceof Warrior) {
             if (this.name.equals(perso.getWeapon())) {
                 System.out.println("C'est pas la fête non plus, " + perso.getName() + " peut pas porter 1000 trucs non plus, paposs");

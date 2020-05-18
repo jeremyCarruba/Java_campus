@@ -1,11 +1,10 @@
 package com.game.play;
 
+import com.game.Printer;
 import com.game.characters.Hero;
 import com.game.Menu;
 import com.game.events.Event;
-import com.game.play.Board;
 
-import java.util.Hashtable;
 import java.util.Scanner;
 
 import com.game.exceptions.*;
@@ -14,70 +13,110 @@ public class Game {
     Scanner scan = new Scanner(System.in);
     private Menu menu;
     private Board board;
+    public Printer p;
 
     public Game(Menu menu) {
         this.menu = menu;
         this.board = new Board();
-        this.board.setNormalBoardEvents(this.board.getBoardEvents());
+        System.out.println("Voulez vous jouer sur un plateau normal ou aléatoire ? normal / random");
+        String boardMode = scan.nextLine();
+        if(boardMode.equalsIgnoreCase("random")) {
+            this.board.setRandomBoardEvents(this.board.getBoardEvents());
+        } else {
+            this.board.setNormalBoardEvents(this.board.getBoardEvents());
+        }
+        this.p = new Printer();
     }
 
     public void play(Hero mainChar) {
-        int posPlayer = 1, nbTours = 1;
+        int posPlayer = 1, nbTours = 0;
+        int[] scenario = {3, 6, 9, 10, 14, 25, 56, 64};
+        int iScenar = 0;
 
+        System.out.println("Voulez vous jouer en mode debug / normal / scenario");
+        String mode = scan.nextLine();
         System.out.println("Vous débuter en case 1");
 
         while (posPlayer < 64) {
+            nbTours++;
             System.out.println("---Tour " + nbTours + "---");
             if (mainChar.getHeroStatus().equals("fighting")) {
                 System.out.println("Vous devez encore fighter votre ennemi en case " + posPlayer);
                 Event e = this.board.getBoardEvent(posPlayer);
-                e.eventHandler(mainChar, e);
+                e.eventHandler(mainChar, e, p);
             } else {
-                System.out.println("Appuyer sur entrée pour lancer le dés");
-                String newInput = scan.nextLine();
-                int dice;
-                if (newInput.isEmpty()) {
-                    dice = throwDice();
-                    System.out.println("Vous faites un " + dice);
-                    posPlayer = posPlayer + dice;
+                if (mode.equalsIgnoreCase("normal")) {
+                    posPlayer = normalMode(posPlayer);
+                } else if (mode.equalsIgnoreCase("debug")) {
+                    posPlayer = debugMode();
+                } else {
+                    posPlayer = scenarMode(iScenar,scenario,posPlayer);
                 }
-                try {
-                    boolean victory = false;
-                    if (posPlayer > 64) {
-                        throw new PersonnageHorsPlateauException(posPlayer);
-                    } else if (posPlayer == 64) {
-                        victory = true;
+            }
+            try {
+                boolean victory = false;
+                if (posPlayer > 64) {
+                    throw new PersonnageHorsPlateauException(posPlayer);
+                } else if (posPlayer == 64) {
+                    victory = true;
+                    endGame(mainChar, victory);
+                } else {
+                    System.out.println("Vous avancez en case " + (posPlayer));
+                    Event e = this.board.getBoardEvent(posPlayer);
+                    System.out.println(e.toString());
+                    e.eventHandler(mainChar, e, p);
+                    if (mainChar.getHealth() <= 0) {
                         endGame(mainChar, victory);
-                    } else {
-                        System.out.println("Vous avancez en case " + (posPlayer));
-                        Event e = this.board.getBoardEvent(posPlayer);
-                        System.out.println(e.toString());
-                        e.eventHandler(mainChar, e);
-                        if (mainChar.getHealth() <= 0) {
-                            endGame(mainChar, victory);
-                        }
                     }
-                } catch (PersonnageHorsPlateauException e) {
-                    posPlayer = 64 - (posPlayer - 64);
-                    System.out.println("Vous retournez case " + posPlayer);
                 }
+            } catch (PersonnageHorsPlateauException e) {
+                posPlayer = depassementPlateau(posPlayer);
             }
+        }
 
-            boolean waitingUserInput = true;
-            while (waitingUserInput) {
-                System.out.println("Appuyer sur entrée pour passer au tour suivant");
-                String newInput = scan.nextLine();
-                if (newInput.isEmpty()) {
-                    waitingUserInput=false;
-                }
+        boolean waitingUserInput = true;
+        while (waitingUserInput) {
+            System.out.println("Appuyer sur entrée pour passer au tour suivant");
+            String newInput = scan.nextLine();
+            if (newInput.isEmpty()) {
+                waitingUserInput = false;
             }
-            nbTours++;
         }
     }
 
-//    public int normalMode() {
-//
-//    }
+    public int depassementPlateau(int posPlayer) {
+        posPlayer = 64 - (posPlayer - 64);
+        System.out.println("Vous retournez case " + posPlayer);
+        return posPlayer;
+    }
+
+    public int normalMode(int posPlayer) {
+        System.out.println("Appuyer sur entrée pour lancer le dés");
+        String newInput = scan.nextLine();
+        int dice;
+        if (newInput.isEmpty()) {
+            dice = throwDice();
+            System.out.println("Vous faites un " + dice);
+            posPlayer = posPlayer + dice;
+        }
+        return posPlayer;
+    }
+
+    public int debugMode() {
+        System.out.println("À Quelle case voulez vous vous rendre ?");
+        int nextCase = scan.nextInt();
+        return nextCase;
+    }
+
+    public int scenarMode(int iScenar, int[]scenario, int posPlayer) {
+        System.out.println("Appuyez sur entrée pour avancer dans le scénario");
+        String newInput = scan.nextLine();
+        if (newInput.isEmpty()) {
+            posPlayer = scenario[iScenar];
+            iScenar++;
+        }
+        return posPlayer;
+    }
 
     public void endGame(Hero mainChar, Boolean victory) {
         if (victory) {

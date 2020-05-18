@@ -1,5 +1,6 @@
 package com.game.events;
 
+import com.game.Printer;
 import com.game.characters.Hero;
 
 public class Foe extends Event {
@@ -35,7 +36,7 @@ public class Foe extends Event {
         this.health = health;
     }
 
-    public void eventHandler(Hero perso, Event e) {
+    public void eventHandler(Hero perso, Event e, Printer p) {
         System.out.println("Début du combat !");
         perso.setHeroStatus("fighting");
         System.out.println(perso.getName() + " attaque le " + this.name + " et lui inflige " + perso.getStrength() + " dégats..");
@@ -82,7 +83,7 @@ public class Foe extends Event {
     }
 
     public String toString() {
-        this.description = "Sur cette case se trouve un " + this.name + ". Il a " + this.health + " points de vie et " +
+        this.description = "Un " + this.name + " se trouve sur la case " + this.posPlateau + ". Il a " + this.health + " points de vie et " +
                 this.attackPower + " points d'attaque.";
         return this.description;
     }

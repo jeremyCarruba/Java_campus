@@ -1,5 +1,6 @@
 package com.game.events;
 
+import com.game.Printer;
 import com.game.characters.Hero;
 
 public class EmptySquare extends Event{
@@ -15,7 +16,7 @@ public class EmptySquare extends Event{
         super(posPlateau, name, description);
     }
 
-    public void eventHandler(Hero perso, Event e) {
+    public void eventHandler(Hero perso, Event e, Printer p) {
         System.out.println("rien");
     }
 
