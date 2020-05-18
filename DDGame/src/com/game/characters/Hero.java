@@ -2,6 +2,10 @@ package com.game.characters;
 
 public abstract class Hero {
 
+    // -- Commentaire Flo -- //
+    // Pourquoi protected plutôt que privé ? 
+    // Si minHealth, maxHealth, etc... sont des constantes, declare les comme constantes, et mets tout en UPPERCASE
+    // -- Fin commentaire Flo -- //
     protected String name;
     protected int health;
     protected int minHealth;
@@ -28,6 +32,9 @@ public abstract class Hero {
         this.heroStatus = "moving";
     }
 
+    // -- Commentaire Flo -- //
+    // Annotation @Override à rajouter 
+    // -- Fin commentaire Flo -- //
     public String toString() {
         return this.getName() + " est un " + this.getClass().getSimpleName() +
                 " avec " + this.health + " points de vie et " + this.strength +
