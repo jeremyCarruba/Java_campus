@@ -3,6 +3,11 @@ package com.game.events;
 import com.game.Printer;
 import com.game.characters.Hero;
 
+// -- Commentaire Flo -- //
+// Pense à mettre les annotations @Override quand tu implémentes une méthode d'un parent.
+// Plus facile de se repérer rapidement dans le code. 
+// -- Fin Commentaire Flo -- //
+
 public class EmptySquare extends Event{
     public EmptySquare(int posPlateau) {
         super(posPlateau);

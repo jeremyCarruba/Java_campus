@@ -13,7 +13,11 @@ public class Menu {
 
     // ===== USER ACTIONS ====//
     //=============================//
-
+    
+    // --- Commentaire Flo --- //
+    // System.exit(0) c'est un peu bourrin -> tu peux peut être avoir 
+    // besoin de faire des choses avant de quitter : sauvegarder des trucs en BDD; etc.
+    // --- Fin Commentaire Flo --- //
     public String checkUserInput() {
         String newInput = scan.nextLine();
         if (newInput.equalsIgnoreCase("quit")) {
@@ -25,6 +29,11 @@ public class Menu {
     // ===== MENUS ==============//
     //=============================//
 
+    // --- Commentaire Flo --- //
+    // 1. Transforme tes choix (perso, Jouer, quitter, ....) en class Enum -> plus propre.
+    // 2. Structure swith case plus jolie à regarder
+    // --- Fin Commentaire Flo --- //
+    
     public void mainMenu(Hero perso) {
 
         System.out.println("What's next ? Jouer / Perso / Quitter");
@@ -50,6 +59,18 @@ public class Menu {
         }
     }
 
+    // --- Commentaire Flo --- //
+    // Ici tu peux faire un peu plus sexy comme code
+    // 1. weapon n'est pas utilisé
+    // 2. La portée des tes variables est mal controlée -> choice & nomPerso ne 
+    //         sont utilisés que dans le while mais ont une portée au niveau de la fonction
+    // 3. Pas besoin de déclarer Hero perso -> fais plutôt direct 
+    //          if (choice.equalsIgnoreCase("Guerrier")) {
+    //                return new Warrior(nomPerso);
+    //          }
+    // 4. Fais des classes Enum pour tes choix
+    // --- Fin Commentaire Flo --- //
+    
     public Hero createChar() {
         String choice, nomPerso, weapon;
         Hero perso;
