@@ -16,6 +16,13 @@ public abstract class Hero {
     protected int maxStrength;
     private String heroStatus;
 
+    protected enum MINMAX{
+        MINHEALTH,
+        MAXHEALTH,
+        MINSTRENGTH,
+        MAXSTRENGTH
+    }
+
     public Hero() {
         this("inconnu", 10, "inconnu", 10);
     }
@@ -32,9 +39,7 @@ public abstract class Hero {
         this.heroStatus = "moving";
     }
 
-    // -- Commentaire Flo -- //
-    // Annotation @Override à rajouter 
-    // -- Fin commentaire Flo -- //
+    @Override
     public String toString() {
         return this.getName() + " est un " + this.getClass().getSimpleName() +
                 " avec " + this.health + " points de vie et " + this.strength +

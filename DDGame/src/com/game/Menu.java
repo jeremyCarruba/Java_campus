@@ -13,15 +13,11 @@ public class Menu {
 
     // ===== USER ACTIONS ====//
     //=============================//
-    
-    // --- Commentaire Flo --- //
-    // System.exit(0) c'est un peu bourrin -> tu peux peut être avoir 
-    // besoin de faire des choses avant de quitter : sauvegarder des trucs en BDD; etc.
-    // --- Fin Commentaire Flo --- //
+
     public String checkUserInput() {
         String newInput = scan.nextLine();
         if (newInput.equalsIgnoreCase("quit")) {
-            System.exit(0);
+            shutDown();
         }
         return newInput;
     }
@@ -29,73 +25,70 @@ public class Menu {
     // ===== MENUS ==============//
     //=============================//
 
-    // --- Commentaire Flo --- //
-    // 1. Transforme tes choix (perso, Jouer, quitter, ....) en class Enum -> plus propre.
-    // 2. Structure swith case plus jolie à regarder
-    // --- Fin Commentaire Flo --- //
-    
-    public void mainMenu(Hero perso) {
+    enum Choices {
+        JOUER,
+        PERSO,
+        QUITTER,
+    }
 
+    public void mainMenu(Hero perso) {
         System.out.println("What's next ? Jouer / Perso / Quitter");
         String newInput = checkUserInput();
-        if (newInput.equalsIgnoreCase("perso")) {
-
-            System.out.println(perso.toString());
-            System.out.println("Voulez vous modifier votre perso ? oui / non");
-
-            newInput = checkUserInput();
-
-            if (newInput.equalsIgnoreCase("oui")) {
-                perso = createChar();
-            }
-
-            mainMenu(perso);
-        } else if (newInput.equalsIgnoreCase("jouer")) {
-            Game nouvellePartie = new Game(this);
-            nouvellePartie.play(perso);
-        } else if (newInput.equalsIgnoreCase("quitter")) {
-            System.out.println("Vous quittez le jeu");
-            System.exit(0);
+        Choices choice = Choices.valueOf(newInput.toUpperCase());
+        switch (choice) {
+            case JOUER:
+                Game nouvellePartie = new Game(this);
+                nouvellePartie.play(perso);
+            case PERSO:
+                System.out.println(perso.toString());
+                System.out.println("Voulez vous modifier votre perso ? oui / non");
+                newInput = checkUserInput();
+                if (newInput.equalsIgnoreCase("oui")) {
+                    perso = createChar();
+                }
+                mainMenu(perso);
+            case QUITTER:
+                System.out.println("Vous quittez le jeu");
+                System.exit(0);
         }
     }
 
-    // --- Commentaire Flo --- //
-    // Ici tu peux faire un peu plus sexy comme code
-    // 1. weapon n'est pas utilisé
-    // 2. La portée des tes variables est mal controlée -> choice & nomPerso ne 
-    //         sont utilisés que dans le while mais ont une portée au niveau de la fonction
-    // 3. Pas besoin de déclarer Hero perso -> fais plutôt direct 
-    //          if (choice.equalsIgnoreCase("Guerrier")) {
-    //                return new Warrior(nomPerso);
-    //          }
-    // 4. Fais des classes Enum pour tes choix
-    // --- Fin Commentaire Flo --- //
-    
-    public Hero createChar() {
-        String choice, nomPerso, weapon;
-        Hero perso;
-        System.out.println("Quel est le nom de ton perso ?");
-        nomPerso = checkUserInput();
 
-        System.out.println("Voulez vous faire un Guerrier ou un Witcher ?");
-        while (true) {
-            choice = checkUserInput();
-            if (choice.equalsIgnoreCase("Guerrier")) {
-                perso = new Warrior(nomPerso);
-                break;
-            } else if (choice.equalsIgnoreCase("Witcher")) {
-                perso = new Witcher(nomPerso);
-                break;
-            } else {
+    enum PersoChoices {
+        GUERRIER,
+        WITCHER
+    }
+
+    public Hero createChar() {
+        boolean waitingForInput = true;
+        System.out.println("Quel est le nom de ton perso ?");
+        String nomPerso = checkUserInput();
+        while (waitingForInput) {
+            try {
+                System.out.println("Voulez vous faire un Guerrier ou un Witcher ?");
+                String newInput = checkUserInput();
+                PersoChoices choice = PersoChoices.valueOf(newInput.toUpperCase());
+                switch (choice) {
+                    case WITCHER:
+                        return new Witcher(nomPerso);
+                    case GUERRIER:
+                        return new Warrior(nomPerso);
+                }
+            } catch (IllegalArgumentException e) {
                 System.out.println("Mauvais choix. Guerrier / Witcher ? ");
             }
         }
-        return perso;
+        return null;
     }
 
     public void start() {
         Hero mainChar = createChar();
         mainMenu(mainChar);
+    }
+
+    public void shutDown() {
+        //Do stuff//
+        System.exit(0);
     }
 
     // ===== Getters / Setters ====//
