@@ -22,7 +22,9 @@ public class Warrior extends Hero {
         System.out.println("Création d'un Guerrier avec tous les paramètres");
     }
 
-
+    /**
+     * En fin de partie on doit reset le characteur à ses pv et pa minimums
+     */
     public void characterReset() {
         this.setHealth(this.MINHEALTH);
         this.setStrength(this.MINSTRENGTH);
@@ -31,12 +33,18 @@ public class Warrior extends Hero {
                 + "Il n'a plus d'arme.");
     }
 
+    /**
+     * Fonction appelée s'il trouve une arme
+     * @param strength
+     * @param bonusIncrease
+     * @param weapon
+     */
     public void findBonus(int strength, int bonusIncrease, String weapon) {
         if(weapon.equalsIgnoreCase(this.weapon)){
             System.out.println("C'est pas la fête non plus, " + this.name + " peut pas porter avoir 1000 armes non plus, paposs.");
         } else {
-            System.out.println(this.name + " trouve une " + weapon + ". Il a maintenant " + (this.strength + bonusIncrease) + " d'attaque !");
-            this.setStrength(this.strength + bonusIncrease);
+            System.out.println(this.name + " trouve une " + weapon + ". Il a maintenant " + (this.getMINSTRENGTH() + bonusIncrease) + " d'attaque !");
+            this.setStrength(this.getMINSTRENGTH() + bonusIncrease);
             this.weapon = weapon;
         }
     }
@@ -50,4 +58,7 @@ public class Warrior extends Hero {
     public int getMAXSTRENGTH() {
         return MAXSTRENGTH;
     }
+
+    @Override
+    public int getMINSTRENGTH() { return MINSTRENGTH; };
 }

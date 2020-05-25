@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"com.game"},{"l":"com.game.characters"},{"l":"com.game.events"},{"l":"com.game.events.bonuses"},{"l":"com.game.exceptions"},{"l":"com.game.play"}]

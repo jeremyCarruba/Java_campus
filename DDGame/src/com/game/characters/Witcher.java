@@ -41,6 +41,9 @@ public class Witcher extends Hero {
         return MAXSTRENGTH;
     }
 
+    @Override
+    public int getMINSTRENGTH() { return MINSTRENGTH; };
+
     public void findBonus(int strength, int bonusIncrease, String weapon) {
         if(strength>this.MAXSTRENGTH){
             System.out.println("C'est pas la fête non plus, " + this.name + " peut pas porter avoir 1000 sorts non plus, paposs." +

@@ -4,16 +4,24 @@ import com.game.characters.*;
 import com.game.play.Game;
 
 import java.util.Scanner;
-
+import com.game.DBConnection;
+/**
+ * Fonction responsable des menus du jeu
+ */
 public class Menu {
     private String gameStatus;
     private String userInput;
+    private DBConnection connection = new DBConnection();
 
     Scanner scan = new Scanner(System.in);
 
     // ===== USER ACTIONS ====//
     //=============================//
 
+    /**
+     * Check les inputs du user et vérifie s'il veut quitter ou non
+     * @return input de l'utilisateur
+     */
     public String checkUserInput() {
         String newInput = scan.nextLine();
         if (newInput.equalsIgnoreCase("quit")) {
@@ -31,6 +39,11 @@ public class Menu {
         QUITTER,
     }
 
+    /**
+     * Une fois le perso créé, propose à l'utilisateur un menu lui permettant de jouer, modifier son perso
+     * ou quitter. S'il choisit de modifier son perso on reprend la première étape, soit createChar();
+     * @param perso
+     */
     public void mainMenu(Hero perso) {
         System.out.println("What's next ? Jouer / Perso / Quitter");
         String newInput = checkUserInput();
@@ -59,6 +72,13 @@ public class Menu {
         WITCHER
     }
 
+    /**
+     * Fonction de création de personnage:
+     * On demande un nom, et une classe, guerrier ou witcher. On retourne ensuite un objet de type guerrier
+     * ou witcher
+     * @return witcher ou guerrier
+     */
+
     public Hero createChar() {
         boolean waitingForInput = true;
         System.out.println("Quel est le nom de ton perso ?");
@@ -81,11 +101,17 @@ public class Menu {
         return null;
     }
 
+    /**
+     * Fonction appelé au commencement du jeu, pour créer le perso puis appelé le menu principal
+     */
     public void start() {
         Hero mainChar = createChar();
         mainMenu(mainChar);
     }
 
+    /**
+     * Fonction de sortie du système
+     */
     public void shutDown() {
         //Do stuff//
         System.exit(0);

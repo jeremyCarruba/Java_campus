@@ -7,11 +7,20 @@ import com.game.events.bonuses.Weapon;
 
 import java.util.*;
 
+/**
+ * Classe responsable de la mise en place du plateau de jeu
+ */
 public class Board {
+    /**
+     * Choix d'une treemap pour avoir un couple clé - valeur et une liste ordonnée
+     */
     protected TreeMap<Integer, Event> boardEvents;
 
+    /**
+     * Constructeur unique créant une nouvelle treemap
+     */
     public Board() {
-        this.boardEvents = new TreeMap<Integer, Event>();
+        this.boardEvents = new TreeMap<>();
     }
 
     public TreeMap<Integer, Event> getBoardEvents() {
@@ -26,6 +35,11 @@ public class Board {
         this.boardEvents = boardEvents;
     }
 
+    /**
+     * En cas de jeu normal, on remplit le plateau de cases vides, puis on créé les ennemi et les potions qui viennent remplacer
+     * ces cases
+     * @param boardEvents
+     */
     public void setNormalBoardEvents(TreeMap<Integer, Event> boardEvents) {
         this.emptySquares(64);
         this.createGoblins(10);
@@ -39,6 +53,11 @@ public class Board {
         this.createPotions(2, new int[]{28, 41}, "Grande potion");
     }
 
+    /**
+     * En cas de plateau random, on créé une List d'int random, puis à chaque fonction d'instanciation d'ennemi
+     * on pick une array dans cette liste random
+     * @param boardEvents
+     */
     public void setRandomBoardEvents(TreeMap<Integer, Event> boardEvents) {
         List<Integer> randomBoard = createRandomArray();
         this.emptySquares(64);
@@ -51,9 +70,12 @@ public class Board {
         this.createSpell(2, pickArray(randomBoard,2), "Boule de feu");
         this.createPotions(6, pickArray(randomBoard,6), "Potion standard");
         this.createPotions(2, pickArray(randomBoard,2), "Grande potion");
-        listBoardEvents();
     }
 
+    /**
+     * Fonction de création d'une array aléatoire avec 63 terme (la 64 étant la case de victoire)
+     * @return random Array
+     */
     public List <Integer> createRandomArray(){
         List<Integer> numberArray =new ArrayList<Integer>();
         for(int i =1; i<64; i++) {
@@ -63,6 +85,12 @@ public class Board {
         return numberArray;
     }
 
+    /**
+     * On pick une nouvelle array d'un certain size dans la liste random
+     * @param list
+     * @param size
+     * @return
+     */
     public int[] pickArray(List<Integer> list, int size) {
         int[] newArray = new int[size];
         for(int i = 0; i<size; i++){
@@ -71,6 +99,7 @@ public class Board {
         }
         return newArray;
     }
+
 
     public void emptySquares(int taillePlateau) {
         for (int i = 1; i < taillePlateau; i++) {
@@ -116,11 +145,18 @@ public class Board {
         }
     }
 
+    /**
+     * Fonction de listage des events
+     */
     public void listBoardEvents() {
         Set<Map.Entry<Integer, Event>> listOfEvents = this.boardEvents.entrySet();
         for (Object listOfEvent : listOfEvents) {
             Map.Entry me = (Map.Entry) listOfEvent;
             System.out.println(me.getKey() + ": " + me.getValue());
         }
+    }
+
+    public void removeEvent(int id) {
+        this.boardEvents.remove(id);
     }
 }

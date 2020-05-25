@@ -5,6 +5,7 @@ import com.game.characters.Hero;
 import com.game.characters.Witcher;
 import com.game.events.Bonus;
 import com.game.events.Event;
+import com.game.play.Board;
 
 public class Spell extends Bonus {
 
@@ -25,21 +26,15 @@ public class Spell extends Bonus {
     public Spell(int posPlateau, String name, String description, int bonusIncrease) {
         super(posPlateau, name, description, bonusIncrease);
     }
-
-    // -- Commentaire Flo -- //
-    // Ici aussi tu pourrais te débrouiller pour faire ça un peu plus sexy
-    // Je ne vois pas pourquoi c'est eventHandler qui est responsable de vérifier l'intégrité des données
-    // Ca devrait être la responsabilité du Witcher je pense (au minimum que setStrength lève une exception, 
-    // si vraiment tu veux gérer ça ici
-    // -- Fin commentaire Flo -- //
     
-    public void eventHandler(Hero perso, Event e, Printer p) {
+    public void eventHandler(Hero perso, Event e, Printer p, Board board) {
         if (perso instanceof Witcher) {
             int totalAfterBonus = perso.getStrength() + this.bonusIncrease;
             perso.findBonus(totalAfterBonus, this.bonusIncrease, this.name);
         } else {
-            System.out.println(perso.getName() + " tombe sur " + this.name + " mais c'est pas tant son truc.");
+            System.out.println(perso.getName() + " est un " + perso.getClass().getSimpleName() + " donc c'est pas tant son truc.");
         }
+        board.removeEvent(posPlateau);
         this.posPlateau = 0;
     }
 }

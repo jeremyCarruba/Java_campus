@@ -2,9 +2,11 @@ package com.game.events;
 
 import com.game.Printer;
 import com.game.characters.Hero;
-import com.game.characters.Warrior;
-import com.game.characters.Witcher;
+import com.game.play.Board;
 
+/**
+ * Classe parente des bonus, ajoutant l'attribut bonusIncrease
+ */
 public abstract class Bonus extends Event {
     protected int bonusIncrease;
 
@@ -25,5 +27,5 @@ public abstract class Bonus extends Event {
         this.bonusIncrease = bonusIncrease;
     }
 
-    public abstract void eventHandler(Hero perso, Event e, Printer p);
+    public abstract void eventHandler(Hero perso, Event e, Printer p, Board board);
 }

@@ -79,4 +79,7 @@ public abstract class Hero {
     public abstract int getMAXHEALTH();
 
     public abstract int getMAXSTRENGTH();
+
+    public abstract int getMINSTRENGTH();
+
 }

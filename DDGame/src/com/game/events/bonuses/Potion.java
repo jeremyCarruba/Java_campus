@@ -4,6 +4,7 @@ import com.game.characters.Hero;
 import com.game.events.Bonus;
 import com.game.events.Event;
 import com.game.Printer;
+import com.game.play.Board;
 
 public class Potion extends Bonus {
 
@@ -24,7 +25,13 @@ public class Potion extends Bonus {
         super(posPlateau, name, description, bonusIncrease);
     }
 
-    public void eventHandler(Hero perso, Event e, Printer p) {
+    /**
+     * Tous les personnages peuvent utiliser les potions, mais ils ne peuvent pas avoir plus de pv que leur MAXHEALTH
+     * @param perso
+     * @param e
+     * @param p
+     */
+    public void eventHandler(Hero perso, Event e, Printer p, Board board) {
         p.printPotion();
         System.out.println(perso.getName() + " trouve une " + this.name + " et ça lui plait.");
         int totalAfterBonus = perso.getHealth() + this.bonusIncrease;
@@ -37,6 +44,7 @@ public class Potion extends Bonus {
             System.out.println("Ça fait du bien mais ça repousse pas les limites non plus, " + perso.getName() + " est au max" +
                     " de sa vie, soit " + perso.getMAXHEALTH() + " points de vie.");
         }
+        board.removeEvent(posPlateau);
         this.posPlateau = 0;
     }
 }

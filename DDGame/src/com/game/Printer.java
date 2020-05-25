@@ -1,5 +1,8 @@
 package com.game;
 
+/**
+ * Classe servant à printer des images lors de l'obtention d'objet
+ */
 public class Printer {
     public void printPotion() {
         System.out.println("      __     ");

@@ -5,6 +5,7 @@ import com.game.characters.Warrior;
 import com.game.events.Bonus;
 import com.game.events.Event;
 import com.game.Printer;
+import com.game.play.Board;
 
 public class Weapon extends Bonus {
 
@@ -25,7 +26,7 @@ public class Weapon extends Bonus {
         super(posPlateau, name, description, bonusIncrease);
     }
 
-    public void eventHandler(Hero perso, Event e, Printer p) {
+    public void eventHandler(Hero perso, Event e, Printer p, Board board) {
         if(this.name.equalsIgnoreCase("Épée")) {
             p.printSword();
         }else{
@@ -33,16 +34,12 @@ public class Weapon extends Bonus {
         }
 
         if (perso instanceof Warrior) {
-            if (this.name.equals(perso.getWeapon())) {
-                System.out.println("C'est pas la fête non plus, " + perso.getName() + " peut pas porter 1000 trucs non plus, paposs");
-            } else if((perso.getStrength() + this.bonusIncrease <= perso.getMAXSTRENGTH()) || perso.getWeapon().equals("inconnu")){
-                System.out.println(perso.getName() + " chope une " + this.name + ". Il a maintenant " + (5 + this.bonusIncrease) + " d'attaque !");
-                perso.setStrength(5 + this.bonusIncrease);
-                perso.setWeapon(this.name);
-            }
+            int totalAfterBonus = perso.getStrength() + this.bonusIncrease;
+            perso.findBonus(totalAfterBonus, this.bonusIncrease, this.name);
         } else {
-            System.out.println(perso.getName() + " tombe sur " + this.name + " mais c'est pas tant son truc.");
+            System.out.println(perso.getName() + " est un " + perso.getClass().getSimpleName() + " donc c'est pas tant son truc.");
         }
+        board.removeEvent(posPlateau);
         this.posPlateau = 0;
     }
 }

@@ -2,8 +2,12 @@ package com.game.events;
 
 import com.game.Printer;
 import com.game.characters.Hero;
+import com.game.play.Board;
 
-public abstract class Event {
+/**
+ * Classe parente de tous les evenements, implémentant l'interface Square
+ */
+public abstract class Event implements Square {
     protected int posPlateau;
     protected String name;
     protected String description;
@@ -18,11 +22,12 @@ public abstract class Event {
         this.description = description;
     }
 
-    public abstract void eventHandler(Hero perso, Event e, Printer p);
-
     public int getPosPlateau() {
         return posPlateau;
     }
+
+    @Override
+    public abstract void eventHandler(Hero perso, Event e, Printer p, Board board);
 
     public void setPosPlateau(int posPlateau) {
         this.posPlateau = posPlateau;

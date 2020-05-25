@@ -2,7 +2,11 @@ package com.game.events;
 
 import com.game.Printer;
 import com.game.characters.Hero;
+import com.game.play.Board;
 
+/**
+ * Classe responsable des ennemis
+ */
 public class Foe extends Event {
 
     protected int attackPower;
@@ -12,6 +16,11 @@ public class Foe extends Event {
         this(0, "inconnu", "inconnu", 0, 0);
     }
 
+    /**
+     * Fonction créant un type d'ennemi (pv et points d'attaque) en fonction du name donné
+     * @param posPlateau
+     * @param name
+     */
     public Foe(int posPlateau, String name) {
         this(posPlateau, name, "blabla");
         if (name.equals("Dragon")) {
@@ -36,12 +45,22 @@ public class Foe extends Event {
         this.health = health;
     }
 
-    public void eventHandler(Hero perso, Event e, Printer p) {
+    /**
+     * eventHandler d'ennemi
+     * En début de combat le statut du héros se met à fighting, s'il le vainc en une fois son statut revient à moving
+     * sinon le eventHandler sera rappelé au tour suivant.
+     * Si le monstre est vaincu il est envoyé en case 0
+     * @param perso
+     * @param e
+     * @param p
+     */
+    public void eventHandler(Hero perso, Event e, Printer p, Board board) {
         System.out.println("Début du combat !");
         perso.setHeroStatus("fighting");
         System.out.println(perso.getName() + " attaque le " + this.name + " et lui inflige " + perso.getStrength() + " dégats..");
         this.health = this.health - perso.getStrength();
         if (this.health <= 0) {
+            board.removeEvent(posPlateau);
             this.posPlateau = 0;
             System.out.println(this.name + " a canné ! Bien joué, vous continuez votre aventure pépère");
             perso.setHeroStatus("moving");
@@ -60,10 +79,6 @@ public class Foe extends Event {
                         " on est pas rendu...");
             }
         }
-    }
-
-    public void attack() {
-        System.out.println(this.name + " vous attaque ! Vous subissez " + this.attackPower + " dégats..");
     }
 
     public int getAttackPower() {
